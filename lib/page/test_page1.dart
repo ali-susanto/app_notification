@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class TestPage1 extends StatefulWidget {
   const TestPage1({super.key});
+  static const route = 'testPage1';
 
   @override
   State<TestPage1> createState() => _TestPage1State();

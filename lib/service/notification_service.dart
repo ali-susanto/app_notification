@@ -18,29 +18,35 @@ class NotificationService {
     try {
       await FirebaseMessaging.instance
           .setForegroundNotificationPresentationOptions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-      FirebaseMessaging.onMessage.listen((response) {
-        log('Get a message on foreground');
-        log('Message Data: ${response.data}');
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+      FirebaseMessaging.instance.getInitialMessage().then(_handleMessage);
+      FirebaseMessaging.onMessage.listen(
+          // (response) {
+          //   log('Get a message on foreground');
+          //   log('Message Data: ${response.data}');
 
-        if (response.notification != null) {
-          log('Message info : ${response.notification?.body}');
-        }
-      });
-      FirebaseMessaging.onMessageOpenedApp.listen((event) {
-        // if(event.notification)
-        try {
-          log(event.notification!.body.toString());
-          BuildContext? context = NavigationService.navigatorKey.currentContext;
-          Navigator.push(context!,
-              MaterialPageRoute(builder: (context) => const TestPage1()));
-        } catch (e) {
-          log(e.toString());
-        }
-      });
+          //   if (response.notification != null) {
+          //     log('Message info : ${response.notification?.body}');
+          //   }
+          // },
+          _handleMessage);
+      FirebaseMessaging.onMessageOpenedApp.listen(
+          // (event) {
+          //   // if(event.notification)
+          //   try {
+          //     log(event.notification!.body.toString());
+          //     BuildContext? context =
+          //         NavigationService.navigatorKey.currentContext;
+          //     Navigator.push(context!,
+          //         MaterialPageRoute(builder: (context) => const TestPage1()));
+          //   } catch (e) {
+          //     log(e.toString());
+          //   }
+          // },
+          _handleMessage);
       // FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
     } catch (e) {
       //
@@ -57,6 +63,11 @@ class NotificationService {
       log(e.toString());
     }
     // }
+  }
+
+  void _handleMessage(RemoteMessage? message) {
+    if (message == null) return;
+    NavigationService.navigatorKey.currentState?.pushNamed(TestPage1.route);
   }
 
   Future<String?> getToken() async {
