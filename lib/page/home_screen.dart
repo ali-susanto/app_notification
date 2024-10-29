@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class TestPage1 extends StatefulWidget {
-  const TestPage1({super.key});
-  static const route = 'testPage1';
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+  static const String route = '/home';
 
   @override
-  State<TestPage1> createState() => _TestPage1State();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _TestPage1State extends State<TestPage1> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
         child: Text(
-          'Test Page 1',
+          'Home Screen',
           style: TextStyle(fontSize: 32),
         ),
       ),

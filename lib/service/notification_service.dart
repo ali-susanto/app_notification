@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:app_notification/page/test_page1.dart';
+import 'package:app_notification/page/notification_screen.dart';
 import 'package:app_notification/service/navigation_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -59,8 +59,8 @@ class NotificationService {
     // if (message.data.isNotEmpty) {
     try {
       BuildContext? context = NavigationService.navigatorKey.currentContext;
-      Navigator.push(
-          context!, MaterialPageRoute(builder: (context) => const TestPage1()));
+      Navigator.push(context!,
+          MaterialPageRoute(builder: (context) => const NotificationScreen()));
     } catch (e) {
       log(e.toString());
     }
@@ -69,7 +69,8 @@ class NotificationService {
 
   void _handleMessage(RemoteMessage? message) {
     if (message == null) return;
-    NavigationService.navigatorKey.currentState?.pushNamed(TestPage1.route);
+    NavigationService.navigatorKey.currentState
+        ?.pushNamed(NotificationScreen.route);
   }
 
   Future<String?> getToken() async {
@@ -86,7 +87,8 @@ class NotificationService {
     OneSignal.Notifications.addClickListener((event) {
       if (event.notification.additionalData?.isNotEmpty ?? false) {
         log(event.notification.additionalData.toString());
-        NavigationService.navigatorKey.currentState?.pushNamed(TestPage1.route);
+        NavigationService.navigatorKey.currentState
+            ?.pushNamed(NotificationScreen.route);
       }
     });
   }
