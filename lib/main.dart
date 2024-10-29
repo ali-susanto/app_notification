@@ -1,31 +1,17 @@
-import 'dart:developer';
-
 import 'package:app_notification/page/test_page1.dart';
 import 'package:app_notification/page/test_page2.dart';
 import 'package:app_notification/service/navigation_service.dart';
 import 'package:app_notification/service/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  NotificationService().initialize();
-  FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
+  // NotificationService().initialize();
+  NotificationService().initOneSignal();
+  // FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
   runApp(const MyApp());
-}
-
-Future<void> _handleBackgroundMessage(RemoteMessage message) async {
-  log(message.notification?.body ?? ''.toString());
-  // try {
-  //   BuildContext? context = NavigationService.navigatorKey.currentContext;
-  //   Navigator.of(
-  //     context!,
-  //   ).push(MaterialPageRoute(builder: (context) => const TestPage1()));
-  // } catch (e) {
-  //   log(e.toString());
-  // }
 }
 
 class MyApp extends StatefulWidget {

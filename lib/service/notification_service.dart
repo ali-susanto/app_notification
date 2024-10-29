@@ -4,9 +4,11 @@ import 'package:app_notification/page/test_page1.dart';
 import 'package:app_notification/service/navigation_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class NotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+  static const oneSignalKey = '400d2ead-e960-4e50-a88a-bfd5e3f70502';
 
   Future<void> initialize() async {
     _fcm.requestPermission();
@@ -74,5 +76,18 @@ class NotificationService {
     String? token = await _fcm.getToken();
     log('notif token: $token');
     return token;
+  }
+
+  Future<void> initOneSignal() async {
+    // OneSignal.login(oneSignalKey);
+    OneSignal.Debug.setLogLevel(OSLogLevel.debug);
+    OneSignal.initialize(oneSignalKey);
+    OneSignal.Notifications.requestPermission(true);
+    OneSignal.Notifications.addClickListener((event) {
+      if (event.notification.additionalData?.isNotEmpty ?? false) {
+        log(event.notification.additionalData.toString());
+        NavigationService.navigatorKey.currentState?.pushNamed(TestPage1.route);
+      }
+    });
   }
 }
